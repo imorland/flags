@@ -44,7 +44,7 @@ class AddPostFlagsRelationship
     public function getModelRelationship(GetModelRelationship $event)
     {
         if ($event->isRelationship(Post::class, 'flags')) {
-            return $event->model->hasMany(Flag::class, 'post_id');
+            return $event->model->hasMany(Flag::class, 'post_id')->whereNull('flags.dismissed_at');
         }
     }
 
