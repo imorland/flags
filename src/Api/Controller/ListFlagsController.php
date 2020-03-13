@@ -26,9 +26,15 @@ class ListFlagsController extends AbstractListController
      */
     public $serializer = FlagSerializer::class;
 
-//    public $sort = ['dismissed_at' => 'desc'];
-//
-//    public $sortFields = ['dismissedAt'];
+    /**
+     * @var array
+     */
+    public $sort = ['created_at' => 'asc'];
+
+    /**
+     * @var array
+     */
+    public $sortFields = ['createdAt', 'dismissedAt'];
 
     /**
      * {@inheritdoc}
@@ -52,22 +58,21 @@ class ListFlagsController extends AbstractListController
         $actor->read_flags_at = time();
         $actor->save();
 
-//        $sort = $this->extractSort($request);
+        $onlyDismissed = Arr::get($request->getQueryParams(), 'dismissed', false);
 
         $flag = Flag::whereVisibleTo($actor);
         $flag->with($this->extractInclude($request));
-        if ($onlyDismissed = Arr::get($request->getQueryParams(), 'dismissed', false)) {
+        if ($onlyDismissed) {
             $flag->whereNotNull('flags.dismissed_at');
-            $flag->orderBy('flags.dismissed_at', 'desc');
         } else {
             $flag->whereNull('flags.dismissed_at');
             $flag->groupBy('post_id');
-            $flag->latest('flags.created_at');
         }
 
-//        foreach ($sort as $field => $order) {
-//            $flag->orderBy(snake_case($field), $order);
-//        }
+        $sort = $this->extractSort($request);
+        foreach ($sort as $field => $order) {
+            $flag->orderBy(snake_case($field), $order);
+        }
 
         return $flag->get();
     }
