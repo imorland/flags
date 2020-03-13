@@ -1,5 +1,12 @@
-flags:
+flarum-flags:
   admin:
     dismissed:
       title: Dismissed Flags
       description: Dismissed flags
+      fields:
+        username: Username
+        discussion: Discussion
+        reason: Reason
+        reason_detail: Reason Detail
+        created_at: Created
+        dismissed_at: Dismissed

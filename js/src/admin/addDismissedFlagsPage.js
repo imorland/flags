@@ -15,8 +15,8 @@ export default () => {
             AdminLinkButton.component({
                 href: app.route('dismissed-flags'),
                 icon: 'fas fa-flag',
-                children: app.translator.trans('flags.admin.dismissed.title'),
-                description: app.translator.trans('flags.admin.dismissed.description')
+                children: app.translator.trans('flarum-flags.admin.dismissed.title'),
+                description: app.translator.trans('flarum-flags.admin.dismissed.description')
             })
         );
     });

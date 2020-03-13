@@ -9,8 +9,8 @@ export default class DismissedFlagsPage extends Page {
       <div className="DismissedFlagsPage">
         <div className="DismissedFlagsPage-header">
           <div className="container">
-            <h1>{app.translator.trans('flags.admin.dismissed.title')}</h1>
-            <p>{app.translator.trans('flags.admin.dismissed.description')}</p>
+            <h1>{app.translator.trans('flarum-flags.admin.dismissed.title')}</h1>
+            <p>{app.translator.trans('flarum-flags.admin.dismissed.description')}</p>
           </div>
         </div>
         <DismissedFlagsTable />
