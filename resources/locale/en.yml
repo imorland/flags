@@ -1,0 +1,5 @@
+flags:
+  admin:
+    dismissed:
+      title: Dismissed Flags
+      description: Dismissed flags
