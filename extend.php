@@ -12,7 +12,6 @@ use Flarum\Event\ConfigureModelDates;
 use Flarum\Extend;
 use Flarum\Flags\Api\Controller\CreateFlagController;
 use Flarum\Flags\Api\Controller\DeleteFlagsController;
-use Flarum\Flags\Api\Controller\ListDismissedFlagsController;
 use Flarum\Flags\Api\Controller\ListFlagsController;
 use Flarum\Flags\Listener;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -28,7 +27,6 @@ return [
     (new Extend\Routes('api'))
         ->get('/flags', 'flags.index', ListFlagsController::class)
         ->post('/flags', 'flags.create', CreateFlagController::class)
-        ->get('/flags/dismissed', 'flags.dismissed', ListDismissedFlagsController::class)
         ->delete('/posts/{id}/flags', 'flags.delete', DeleteFlagsController::class),
 
     function (Dispatcher $events) {

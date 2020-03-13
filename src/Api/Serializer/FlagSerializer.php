@@ -30,6 +30,7 @@ class FlagSerializer extends AbstractSerializer
             'reason'       => $flag->reason,
             'reasonDetail' => $flag->reason_detail,
             'createdAt'    => $this->formatDate($flag->created_at),
+            'dismissedAt'  => $this->formatDate($flag->dismissed_at),
         ];
     }
 

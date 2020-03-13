@@ -13,6 +13,7 @@ use Flarum\Api\Controller\AbstractListController;
 use Flarum\Flags\Api\Serializer\FlagSerializer;
 use Flarum\Flags\Flag;
 use Flarum\User\AssertPermissionTrait;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -47,10 +48,18 @@ class ListFlagsController extends AbstractListController
         $actor->read_flags_at = time();
         $actor->save();
 
+        $onlyDismissed = Arr::get($request->getQueryParams(), 'dismissed', false);
+
         return Flag::whereVisibleTo($actor)
             ->with($this->extractInclude($request))
             ->latest('flags.created_at')
-            ->whereNull('flags.dismissed_at')
+            ->where(function ($query) use ($onlyDismissed) {
+                if ($onlyDismissed) {
+                    return $query->whereNotNull('flags.dismissed_at');
+                }
+
+                return $query->whereNull('flags.dismissed_at');
+            })
             ->groupBy('post_id')
             ->get();
     }
