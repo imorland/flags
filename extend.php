@@ -12,6 +12,7 @@ use Flarum\Event\ConfigureModelDates;
 use Flarum\Extend;
 use Flarum\Flags\Api\Controller\CreateFlagController;
 use Flarum\Flags\Api\Controller\DeleteFlagsController;
+use Flarum\Flags\Api\Controller\ListDismissedFlagsController;
 use Flarum\Flags\Api\Controller\ListFlagsController;
 use Flarum\Flags\Listener;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -22,12 +23,14 @@ return [
         ->css(__DIR__.'/less/forum.less'),
 
     (new Extend\Frontend('admin'))
-        ->js(__DIR__.'/js/dist/admin.js'),
+        ->js(__DIR__.'/js/dist/admin.js')
+        ->css(__DIR__.'/less/admin.less'),
 
     (new Extend\Routes('api'))
         ->get('/flags', 'flags.index', ListFlagsController::class)
         ->post('/flags', 'flags.create', CreateFlagController::class)
-        ->delete('/posts/{id}/flags', 'flags.delete', DeleteFlagsController::class),
+        ->delete('/posts/{id}/flags', 'flags.delete', DeleteFlagsController::class)
+        ->get('/flags/dismissed', 'flags.dismissed', ListDismissedFlagsController::class),
 
     function (Dispatcher $events) {
         $events->listen(ConfigureModelDates::class, Listener\AddFlagsApiDates::class);

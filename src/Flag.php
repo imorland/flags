@@ -38,4 +38,9 @@ class Flag extends AbstractModel
     {
         return $this->belongsTo(User::class);
     }
+
+    public function dismissedUser()
+    {
+        return $this->hasOne(User::class, 'id', 'dismissed_by_user_id');
+    }
 }
