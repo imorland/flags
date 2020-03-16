@@ -4,9 +4,11 @@ import humanTime from 'flarum/helpers/humanTime';
 
 export default class DismissedFlagsTable extends Component {
   init() {
+    this.data = [];
     this.loading = true;
 
-    app.store.find('flags', { dismissed: true, sort: 'dismissedAt' }).then(() => {
+    app.store.find('flags', { dismissed: true, sort: 'dismissedAt' }).then(res => {
+      this.data = res.payload.data;
       this.loading = false;
 
       m.redraw();
@@ -30,16 +32,20 @@ export default class DismissedFlagsTable extends Component {
             <td>{app.translator.trans('flarum-flags.admin.dismissed.fields.dismissed_at')}</td>
           </thead>
           <tbody>
-            {app.store.all('flags').map(flag => (
-              <tr>
-                <td>{flag.user().username()}</td>
-                <td>{flag.post().discussion().title()}</td>
-                <td>{flag.reason()}</td>
-                <td>{flag.reasonDetail()}</td>
-                <td>{humanTime(flag.createdAt())}</td>
-                <td>{humanTime(flag.dismissedAt())}</td>
-              </tr>
-            ))}
+            {this.data.map(data => {
+              const flag = app.store.getById('flags', data.id);
+
+              return (
+                <tr>
+                  <td>{flag.user().username()}</td>
+                  <td>{flag.post().discussion().title()}</td>
+                  <td>{flag.reason()}</td>
+                  <td>{flag.reasonDetail()}</td>
+                  <td>{humanTime(flag.createdAt())}</td>
+                  <td>{humanTime(flag.dismissedAt())}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
