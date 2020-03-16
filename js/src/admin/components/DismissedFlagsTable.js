@@ -1,3 +1,4 @@
+import Button from 'flarum/components/Button';
 import Component from 'flarum/Component';
 import LoadingIndicator from 'flarum/components/LoadingIndicator';
 import DismissedFlagsModal from './DismissedFlagsModal';
@@ -30,18 +31,30 @@ export default class DismissedFlagsTable extends Component {
             <th>{app.translator.trans('flarum-flags.admin.dismissed.fields.created_at')}</th>
             <th>{app.translator.trans('flarum-flags.admin.dismissed.fields.dismissed_at')}</th>
             <th>{app.translator.trans('flarum-flags.admin.dismissed.fields.dismissed_by')}</th>
+            <th></th>
           </thead>
           <tbody>
             {this.data.map(data => {
               const flag = app.store.getById('flags', data.id);
+              const id = flag.post().discussion().id();
+              const near = flag.post().number();
 
               return (
-                <tr onclick={() => app.modal.show(new DismissedFlagsModal({ flag }))}>
+                <tr>
                   <td>{flag.post().user().username()}</td>
-                  <td>{flag.post().discussion().title()}</td>
+                  <td>
+                    <a href={app.route('discussion.near', { id, near })}>
+                      {flag.post().discussion().title()}
+                    </a>
+                  </td>
                   <td>{humanTime(flag.createdAt())}</td>
                   <td>{humanTime(flag.dismissedAt())}</td>
                   <td>{flag.dismisser().username()}</td>
+                  <td>
+                    <Button className="Button" onclick={() => app.modal.show(new DismissedFlagsModal({ flag }))}>
+                      <i className="fas fa-info-circle"></i>
+                    </Button>
+                  </td>
                 </tr>
               );
             })}
