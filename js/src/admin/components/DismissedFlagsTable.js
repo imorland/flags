@@ -1,5 +1,6 @@
 import Component from 'flarum/Component';
 import LoadingIndicator from 'flarum/components/LoadingIndicator';
+import DismissedFlagsModal from './DismissedFlagsModal';
 import humanTime from 'flarum/helpers/humanTime';
 
 export default class DismissedFlagsTable extends Component {
@@ -26,25 +27,23 @@ export default class DismissedFlagsTable extends Component {
           <thead>
             <th>{app.translator.trans('flarum-flags.admin.dismissed.fields.username')}</th>
             <th>{app.translator.trans('flarum-flags.admin.dismissed.fields.discussion')}</th>
-            <th>{app.translator.trans('flarum-flags.admin.dismissed.fields.reason')}</th>
-            <th>{app.translator.trans('flarum-flags.admin.dismissed.fields.reason_detail')}</th>
             <th>{app.translator.trans('flarum-flags.admin.dismissed.fields.created_at')}</th>
             <th>{app.translator.trans('flarum-flags.admin.dismissed.fields.dismissed_at')}</th>
             <th>{app.translator.trans('flarum-flags.admin.dismissed.fields.dismissed_by')}</th>
+            <th></th>
           </thead>
           <tbody>
             {this.data.map(data => {
               const flag = app.store.getById('flags', data.id);
 
               return (
-                <tr>
+                <tr onclick={() => app.modal.show(new DismissedFlagsModal({ flag }))}>
                   <td>{flag.post().user().username()}</td>
                   <td>{flag.post().discussion().title()}</td>
-                  <td>{flag.reason()}</td>
-                  <td>{flag.reasonDetail()}</td>
                   <td>{humanTime(flag.createdAt())}</td>
                   <td>{humanTime(flag.dismissedAt())}</td>
                   <td>{flag.dismisser().username()}</td>
+                  <td></td>
                 </tr>
               );
             })}
