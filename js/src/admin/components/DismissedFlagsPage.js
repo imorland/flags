@@ -1,5 +1,3 @@
-// import sortable from 'html5sortable/dist/html5sortable.es.js';
-
 import Page from 'flarum/components/Page';
 import DismissedFlagsTable from './DismissedFlagsTable';
 
