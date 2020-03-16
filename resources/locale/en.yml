@@ -10,3 +10,4 @@ flarum-flags:
         reason_detail: Reason Detail
         created_at: Created
         dismissed_at: Dismissed
+        dismissed_by: Dismissed By

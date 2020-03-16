@@ -42,6 +42,7 @@ class ListFlagsController extends AbstractListController
     public $include = [
         'user',
         'post',
+        'dismisser',
         'post.user',
         'post.discussion'
     ];

@@ -49,4 +49,12 @@ class FlagSerializer extends AbstractSerializer
     {
         return $this->hasOne($flag, BasicUserSerializer::class);
     }
+
+    /**
+     * @return \Tobscure\JsonApi\Relationship
+     */
+    protected function dismisser($flag)
+    {
+      return $this->hasOne($flag, BasicUserSerializer::class);
+    }
 }
