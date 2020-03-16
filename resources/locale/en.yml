@@ -8,6 +8,6 @@ flarum-flags:
         discussion: Discussion
         reason: Reason
         reason_detail: Reason Detail
-        created_at: Created
-        dismissed_at: Dismissed
+        created_at: Flagged On
+        dismissed_at: Dismissed On
         dismissed_by: Dismissed By
