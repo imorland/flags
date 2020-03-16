@@ -30,7 +30,6 @@ export default class DismissedFlagsTable extends Component {
             <th>{app.translator.trans('flarum-flags.admin.dismissed.fields.created_at')}</th>
             <th>{app.translator.trans('flarum-flags.admin.dismissed.fields.dismissed_at')}</th>
             <th>{app.translator.trans('flarum-flags.admin.dismissed.fields.dismissed_by')}</th>
-            <th></th>
           </thead>
           <tbody>
             {this.data.map(data => {
@@ -43,7 +42,6 @@ export default class DismissedFlagsTable extends Component {
                   <td>{humanTime(flag.createdAt())}</td>
                   <td>{humanTime(flag.dismissedAt())}</td>
                   <td>{flag.dismisser().username()}</td>
-                  <td></td>
                 </tr>
               );
             })}
