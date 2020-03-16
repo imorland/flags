@@ -55,10 +55,12 @@ class ListFlagsController extends AbstractListController
 
         $this->assertRegistered($actor);
 
-        $actor->read_flags_at = time();
-        $actor->save();
-
         $onlyDismissed = Arr::get($request->getQueryParams(), 'dismissed', false);
+
+        if (!$onlyDismissed) {
+            $actor->read_flags_at = time();
+            $actor->save();
+        }
 
         $flag = Flag::whereVisibleTo($actor);
         $flag->with($this->extractInclude($request));
