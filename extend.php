@@ -21,13 +21,13 @@ use Illuminate\Contracts\Events\Dispatcher;
 
 return [
     (new Extend\Frontend('forum'))
-        ->js(__DIR__.'/js/dist/forum.js')
-        ->css(__DIR__.'/less/forum.less')
+        ->js(__DIR__ . '/js/dist/forum.js')
+        ->css(__DIR__ . '/less/forum.less')
         ->route('/flags', 'flags', AssertRegistered::class),
 
     (new Extend\Frontend('admin'))
-        ->js(__DIR__.'/js/dist/admin.js')
-        ->css(__DIR__.'/less/admin.less'),
+        ->js(__DIR__ . '/js/dist/admin.js')
+        ->css(__DIR__ . '/less/admin.less'),
 
     (new Extend\Routes('api'))
         ->get('/flags', 'flags.index', ListFlagsController::class)
@@ -38,7 +38,10 @@ return [
         ->dateAttribute('read_flags_at'),
 
     (new Extend\Model(Post::class))
-        ->hasMany('flags', Flag::class, 'post_id'),
+        ->relationship('flags', function ($post) {
+            return $post->hasMany(Flag::class, 'post_id')
+                ->whereNull('dismissed_at');
+        }),
 
     function (Dispatcher $events) {
         $events->listen(Serializing::class, Listener\AddFlagsApiAttributes::class);
